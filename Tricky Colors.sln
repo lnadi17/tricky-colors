@@ -1,14 +1,18 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-
+Project("{456B6FBD-A603-A4EC-A841-051772C9F34E}") = "Tricky Colors", "Assembly-CSharp.csproj", "{042AFE9F-33BC-0447-F262-6F39A7497A85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-
+		{042AFE9F-33BC-0447-F262-6F39A7497A85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{042AFE9F-33BC-0447-F262-6F39A7497A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{042AFE9F-33BC-0447-F262-6F39A7497A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{042AFE9F-33BC-0447-F262-6F39A7497A85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

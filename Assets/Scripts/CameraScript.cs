@@ -5,11 +5,18 @@ public class CameraScript : MonoBehaviour {
 
 	public static GameObject cam;
 
+	public GameObject player;
+
 	void Start () {
 		cam = gameObject; //PlatformTransform refers GameObject component of camera from that.
 	}
-	
+		
+
 	void Update () {
-	
+		//Camera moves smoothly.
+		if (cam.transform.position.y - player.transform.position.y < 3){
+			Vector3 futurePos = player.transform.position + new Vector3 (0, 3, -10);
+			cam.transform.position = Vector3.Lerp (cam.transform.position, futurePos, 0.05f);
+		}
 	}
 }

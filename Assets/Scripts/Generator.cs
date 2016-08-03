@@ -6,11 +6,13 @@ public class Generator : MonoBehaviour {
 
 	public List<GameObject> colorHolders;
 	public GameObject colorHolder;
-	public float distanceBetween;
+	public static float distanceBetween = 3f;
+	public static int timesX = 4;
+	public static int timesY = 10;
+	public Sprite mySprite;
 
 	void Start () {
-		CameraScript.cam.transform.position = new Vector3 (0, 0, -10); //Remove this line and see if it works when level restarts.
-		GenerateY (5);
+		GenerateY (timesY);
 		print ("Generating finished.");
 	}
 
@@ -19,7 +21,16 @@ public class Generator : MonoBehaviour {
 		float positionOffsetX = 0 - (colorHolders.Count * 1.5f * 0.5f * times) + 0.75f; //It's always in the middle of the screen.
 		GameObject colorHolderInstance = Instantiate(colorHolder, new Vector2(positionOffsetX, positionOffsetY), Quaternion.identity) as GameObject;
 		colorHolderInstance.AddComponent<PlatformTransform> ();
-		colorHolderInstance.AddComponent<SpriteRenderer> ().sprite = new Sprite ();
+
+		GameObject transformManager = new GameObject ("TransformManager");
+		transformManager.transform.position = new Vector2 (0, positionOffsetY);
+		transformManager.transform.SetParent (colorHolderInstance.transform);
+		transformManager.transform.localScale = new Vector3 (colorHolders.Count * 1.5f * times, 1, 1);
+
+		SpriteRenderer renderer = transformManager.AddComponent<SpriteRenderer> ();
+		renderer.sprite = mySprite;
+		renderer.color = Color.clear;
+
 		for (int u = 0; u < times; u++) {
 			for (int i = 0; i < colorHolders.Count; i++) {
 				int randomIndex = Random.Range (0, colorHolders.Count);
@@ -35,7 +46,7 @@ public class Generator : MonoBehaviour {
 	void GenerateY(int times = 5){
 		float positionOffsetY = 0;
 		for (int i = 0; i < times; i++) {
-			GenerateX (positionOffsetY, 2);
+			GenerateX (positionOffsetY, timesX);
 			positionOffsetY += distanceBetween;
 		}
 	}

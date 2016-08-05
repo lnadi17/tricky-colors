@@ -2,12 +2,11 @@
 using System.Collections;
 
 public class CameraScript : MonoBehaviour {
-
+	
 	public static GameObject cam;
-
 	public GameObject player;
 
-	void Start () {
+	void Awake(){ //It's initialized in Awake 'coz otherwise PlayedDie's start funcion is fired first.
 		cam = gameObject; //PlatformTransform refers GameObject component of camera from that.
 	}
 		

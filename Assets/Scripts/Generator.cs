@@ -7,25 +7,40 @@ public class Generator : MonoBehaviour {
 	public List<GameObject> colorHolders;
 	public GameObject colorHolder;
 	public static float distanceBetween = 3f;
-	public static int timesX = 4;
-	public static int timesY = 10;
+	public static int timesX = 10; 
+	public static int timesY = 20;
+	public static bool doFlip = false;
 	public Sprite mySprite;
+	public static float speed1 = 0;
+	public float speed;
+
+	private int e = 0; //Ordinality
 
 	void Start () {
+		speed1 = speed;
 		GenerateY (timesY);
 		print ("Generating finished.");
 	}
 
 	//Generates lines randomly, but it'd be great if it didn't create 2 rects next to each other with the same color.
 	void GenerateX(float positionOffsetY, int times = 1){
+
+		//Changes the direction of every second platform.
+		doFlip = false;
+		if (e % 2 == 0){
+			doFlip = true;
+		}
+		e++;
+
 		float positionOffsetX = 0 - (colorHolders.Count * 1.5f * 0.5f * times) + 0.75f; //It's always in the middle of the screen.
-		GameObject colorHolderInstance = Instantiate(colorHolder, new Vector2(positionOffsetX, positionOffsetY), Quaternion.identity) as GameObject;
+		GameObject colorHolderInstance = Instantiate (colorHolder, new Vector2 (positionOffsetX, positionOffsetY), Quaternion.identity) as GameObject;
 		colorHolderInstance.AddComponent<PlatformTransform> ();
 
+		//Adds new GameObject in order to tell if line's gone out of sight.
 		GameObject transformManager = new GameObject ("TransformManager");
 		transformManager.transform.position = new Vector2 (0, positionOffsetY);
 		transformManager.transform.SetParent (colorHolderInstance.transform);
-		transformManager.transform.localScale = new Vector3 (colorHolders.Count * 1.5f * times, 1, 1);
+		transformManager.transform.localScale = new Vector3 (colorHolders.Count * 1.5f * times, 0.35f, 1);
 
 		SpriteRenderer renderer = transformManager.AddComponent<SpriteRenderer> ();
 		renderer.sprite = mySprite;

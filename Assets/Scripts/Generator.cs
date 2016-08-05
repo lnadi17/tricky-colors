@@ -6,9 +6,11 @@ public class Generator : MonoBehaviour {
 
 	public List<GameObject> colorHolders;
 	public GameObject colorHolder;
-	public static float distanceBetween = 3f;
-	public static int timesX = 10; 
-	public static int timesY = 20;
+	public static float distanceBetween = 3f; //3
+	//
+	public static int timesX = 7;
+	public static int timesY = 6;
+	//
 	public static bool doFlip = false;
 	public Sprite mySprite;
 	public static float speed1 = 0;
@@ -19,7 +21,6 @@ public class Generator : MonoBehaviour {
 	void Start () {
 		speed1 = speed;
 		GenerateY (timesY);
-		print ("Generating finished.");
 	}
 
 	//Generates lines randomly, but it'd be great if it didn't create 2 rects next to each other with the same color.

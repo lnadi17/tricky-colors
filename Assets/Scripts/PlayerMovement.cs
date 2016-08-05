@@ -10,11 +10,9 @@ public class PlayerMovement : MonoBehaviour {
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D> ();
 	}
-	
+
 	void Update () {
-		
-		//if(Input.GetTouch(0).phase == TouchPhase.Began){ //That's for touchscreen
-		if (Input.GetKeyDown (KeyCode.Space)) {
+		if (Input.GetKeyDown (KeyCode.Space) || Input.GetTouch(0).phase == TouchPhase.Began){
 			if(rb2d.isKinematic){
 				rb2d.isKinematic = false;
 			}

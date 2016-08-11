@@ -9,7 +9,9 @@ public class ScoreScript : MonoBehaviour {
 	public GameObject player;
 	public GameObject scoreTextGO;
 	public List<string> tagList;
+	public AudioClip myAudio;
 	public static int myScore; //Player score.
+
 	private float distanceBetween;
 	private TextMesh scoreText;
 
@@ -27,6 +29,7 @@ public class ScoreScript : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
+		AudioSource.PlayClipAtPoint (myAudio, Camera.main.transform.position);
 		myScore++;
 		scoreText.text = myScore.ToString ();
 		scoreTextGO.transform.Translate (0, distanceBetween, 0);

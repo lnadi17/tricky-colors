@@ -29,15 +29,18 @@ public class PlayerDie : MonoBehaviour {
 			{
 				GameOver ();
 			}
-			yield return new WaitForSeconds (0.05f); //I can't tell if it's faster than Update function though.
+			yield return new WaitForSeconds (0.05f);
 		}
 	}
 
 	void GameOver(){
 		playerMovement.enabled = false; //Just disable player's controls.
 		circleCollider.enabled = false; //Not to interact with other objects.
-		isOver = true;
 		rb2d.isKinematic = true;
+		isOver = true;
+		if (ScoreScript.myScore > PlayerPrefs.GetInt ("BestScore")) {
+			PlayerPrefs.SetInt ("BestScore", ScoreScript.myScore);
+		}
 	}
 
 	void FixedUpdate(){

@@ -5,6 +5,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	public Vector3 endDistance;
 	[Range(1, 10)]public float transpeed;
+	public AudioClip myAudio;
+
 	private Rigidbody2D rb2d;
 	private bool started;
 	private CircleCollider2D coll;
@@ -20,11 +22,13 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Update () {
 		if (Input.GetTouch(0).phase == TouchPhase.Began && started){
+		//if (Input.GetKeyDown(KeyCode.Space) && started){
 			if(rb2d.isKinematic){
 				rb2d.isKinematic = false;
 			}
 			Vector3 end = endDistance + (Vector3)rb2d.position;
 			StartCoroutine (SmoothMovement (end));
+			AudioSource.PlayClipAtPoint (myAudio, Camera.main.transform.position - new Vector3(0, 1.5f, 0));
 		}
 	}
 

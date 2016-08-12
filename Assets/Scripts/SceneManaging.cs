@@ -6,6 +6,10 @@ using UnityEngine.UI;
 public class SceneManaging: MonoBehaviour {
 
 	public Text bestext;
+	public GameObject canvasObject;
+
+	private GameObject pauseObject;
+	private GameObject resumeObject;
 
 	private void Start(){
 		if (PlayerPrefs.HasKey ("BestScore")) {
@@ -13,6 +17,8 @@ public class SceneManaging: MonoBehaviour {
 		} else {
 			bestext.enabled = false;
 		}
+		pauseObject = canvasObject.transform.FindChild ("pauseBtn").gameObject;
+		resumeObject = canvasObject.transform.FindChild ("resumeBtn").gameObject;
 	}
 
 	public void ReplayGame(){
@@ -28,9 +34,13 @@ public class SceneManaging: MonoBehaviour {
 		Application.Quit ();
 	}
 	public void PauseGame(){
+		pauseObject.SetActive (false);
+		resumeObject.SetActive (true);
 		Time.timeScale = 0;
 	}
 	public void ResumeGame(){
+		pauseObject.SetActive (true);
+		resumeObject.SetActive (false);
 		Time.timeScale = 1;
 	}
 }

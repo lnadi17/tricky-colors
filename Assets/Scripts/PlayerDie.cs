@@ -10,9 +10,12 @@ public class PlayerDie : MonoBehaviour {
 	private PlayerMovement playerMovement;
 	private CircleCollider2D circleCollider;
 	private SpriteRenderer rdr;
+	private Button btn;
+
 	//public Color fadedColor; //Changes color when collides with different-colored GameObject.
 	public GameObject canvas;
 	public Text text;
+	public GameObject canvasObject;
 
 	void Start () {
 		playerMovement = GetComponent<PlayerMovement> ();
@@ -21,6 +24,7 @@ public class PlayerDie : MonoBehaviour {
 		cam = CameraScript.cam;
 		rb2d = GetComponent<Rigidbody2D> ();
 		StartCoroutine (IfDead ());
+		btn = canvasObject.transform.FindChild ("pauseBtn").GetComponent<Button> ();
 	}
 	
 	IEnumerator IfDead(){
@@ -41,6 +45,7 @@ public class PlayerDie : MonoBehaviour {
 		if (ScoreScript.myScore > PlayerPrefs.GetInt ("BestScore")) {
 			PlayerPrefs.SetInt ("BestScore", ScoreScript.myScore);
 		}
+		btn.enabled = false;
 	}
 
 	void FixedUpdate(){
@@ -49,6 +54,7 @@ public class PlayerDie : MonoBehaviour {
 				transform.localScale *= 1.05f;
 			} else {
 				canvas.SetActive (true);
+				canvasObject.SetActive (false);
 				text.text = "SCORE: " + ScoreScript.myScore;
 			}
 		}

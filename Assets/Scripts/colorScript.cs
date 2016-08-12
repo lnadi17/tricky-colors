@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class colorScript : MonoBehaviour {
+public class ColorScript : MonoBehaviour {
 
 	public List<Color> colorList; //RGBYP
 

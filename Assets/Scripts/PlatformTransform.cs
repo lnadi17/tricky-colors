@@ -16,6 +16,9 @@ public class PlatformTransform : MonoBehaviour {
 	private bool inRange = false;
 	private bool dontAsk = false;
 
+	private float futurePosX;
+	private float posX;
+
 	void Awake(){
 
 		speed = Generator.speed1;
@@ -26,6 +29,7 @@ public class PlatformTransform : MonoBehaviour {
 	}
 
 	void Start(){
+		posX = transform.position.x;
 		cam = CameraScript.cam;
 		RetriveCameraSize (); //That is really cool method tho.
 		tManager = transform.GetChild (0).gameObject; //Usually transformManager is added last.
@@ -62,22 +66,34 @@ public class PlatformTransform : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-		
+
 		//Transform takes too much memory.
+		//Uwwwpdate: Optimized.
 		if (!dontAsk) {
-			if (Mathf.Abs (tManager.transform.position.x) <=  tManagerWidth * 0.5f - cameraWidth * 0.5f) { //-tManagerSafeZone) {
+			if (Mathf.Abs (posX + tManagerWidth * 0.5f - 0.75f) <=  tManagerWidth * 0.5f - cameraWidth * 0.5f) { //-tManagerSafeZone) {
 				inRange = true;
 			} else {
 				inRange = false;
 			}
 		}
-		if (inRange) {
-			transform.Translate (0.1f * speed, 0, 0);
+
+
+		if (inRange && rdr.isVisible) {
+			futurePosX = posX + 0.1f * speed;
+			posX = futurePosX;
+			transform.position = new Vector2 (futurePosX, transform.position.y);
 			dontAsk = false;
-		} else {
+		}else if (inRange && !rdr.isVisible){
+			futurePosX = posX + 0.1f * speed;
+			posX = futurePosX;
+			dontAsk = false;
+		}
+
+		if(!inRange){
 			speed *= -1;
 			inRange = true;
 			dontAsk = true;
 		}
+
 	}
 }

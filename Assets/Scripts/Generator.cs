@@ -9,13 +9,14 @@ public class Generator : MonoBehaviour {
 	public static float distanceBetween = 3f; //3
 	//
 	public static int timesX = 7;
-	public static int timesY = 6;
+	public static int timesY = 50;
 	//
 	public static bool doFlip = false;
 	public Sprite mySprite;
 	public static float speed1 = 0;
 	public float speed;
 
+	private List<GameObject> tempHolders;
 	private int e = 0; //Ordinality
 
 	void Start () {
@@ -48,9 +49,19 @@ public class Generator : MonoBehaviour {
 		renderer.color = Color.clear;
 
 		for (int u = 0; u < times; u++) {
+			tempHolders = new List<GameObject> (colorHolders);
 			for (int i = 0; i < colorHolders.Count; i++) {
-				int randomIndex = Random.Range (0, colorHolders.Count);
-				GameObject toInstantiate = colorHolders [randomIndex];
+				int randomIndex = Random.Range (0, tempHolders.Count);
+				GameObject toInstantiate = tempHolders [randomIndex];
+				tempHolders.RemoveAt (randomIndex);
+
+				/*if(tempTag == toInstantiate.tag){ //Didn't work.
+					i--;
+					break;
+				}
+				
+				tempTag = toInstantiate.tag;*/
+	
 				GameObject instance = Instantiate (toInstantiate, new Vector2 (positionOffsetX, positionOffsetY), Quaternion.identity) as GameObject;
 				instance.transform.SetParent (colorHolderInstance.transform);
 				positionOffsetX += 1.5f;

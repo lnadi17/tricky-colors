@@ -64,7 +64,6 @@ public class PlayerDie : MonoBehaviour {
 		if (!other.CompareTag (gameObject.tag) && other.tag != "Untagged") {
 			playerMovement.enabled = false;
 			tag = "Untagged";
-			//rdr.color = fadedColor;
 		}
 	}
 }

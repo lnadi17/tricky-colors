@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿	using UnityEngine;
 using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
@@ -23,12 +23,13 @@ public class PlayerMovement : MonoBehaviour {
 	void Update () {
 		if (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.8f && started){
 		//if (Input.GetKeyDown(KeyCode.Space) && started){
+		//if ((Input.GetKeyDown(KeyCode.Space) && started) || (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.8f && started)){
 			if(rb2d.isKinematic){
 				rb2d.isKinematic = false;
 			}
 			Vector3 end = endDistance + (Vector3)rb2d.position;
 			StartCoroutine (SmoothMovement (end));
-			AudioSource.PlayClipAtPoint (myAudio, Camera.main.transform.position - new Vector3(0, 1.5f, 0));
+			AudioSource.PlayClipAtPoint (myAudio, Camera.main.transform.position - new Vector3(0, -3f, 0));
 		}
 	}
 

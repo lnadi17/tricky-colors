@@ -41,10 +41,8 @@ public class PlatformTransform : MonoBehaviour {
 		//Rearrange platforms:
 		if (speed > 0){
 			transform.position = new Vector2 (transform.position.x - cameraWidth * 0.5f + tManagerWidth * 0.5f - 0.1f, transform.position.y);
-			print ("more");
 		}else{
 			transform.position = new Vector2 (transform.position.x + cameraWidth * 0.5f - tManagerWidth * 0.5f + 0.1f, transform.position.y);
-			print ("less");
 		}
 		StartCoroutine (Reposition());
 	}

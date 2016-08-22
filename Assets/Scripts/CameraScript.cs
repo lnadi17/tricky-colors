@@ -9,7 +9,6 @@ public class CameraScript : MonoBehaviour {
 	void Awake(){ //It's initialized in Awake 'coz otherwise PlayedDie's start funcion is fired first.
 		cam = gameObject; //PlatformTransform refers GameObject component of camera from that.
 	}
-		
 
 	void Update () {
 		//Camera moves smoothly.

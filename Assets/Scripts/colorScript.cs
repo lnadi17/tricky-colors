@@ -33,6 +33,5 @@ public class ColorScript : MonoBehaviour {
 		default:
 			break;
 		}
-
 	}
 }

@@ -6,7 +6,7 @@ public class Generator : MonoBehaviour {
 
 	public List<GameObject> colorHolders;
 	public GameObject colorHolder;
-	public static float distanceBetween = 3f; //3
+	public static float distanceBetween = 3f;
 	//
 	public static int timesX = 7;
 	public static int timesY = 50;
@@ -23,8 +23,7 @@ public class Generator : MonoBehaviour {
 		speed1 = speed;
 		GenerateY (timesY);
 	}
-
-	//Generates lines randomly, but it'd be great if it didn't create 2 rects next to each other with the same color.
+		
 	void GenerateX(float positionOffsetY, int times = 1){
 
 		//Changes the direction of every second platform.
@@ -55,13 +54,6 @@ public class Generator : MonoBehaviour {
 				GameObject toInstantiate = tempHolders [randomIndex];
 				tempHolders.RemoveAt (randomIndex);
 
-				/*if(tempTag == toInstantiate.tag){ //Didn't work.
-					i--;
-					break;
-				}
-				
-				tempTag = toInstantiate.tag;*/
-	
 				GameObject instance = Instantiate (toInstantiate, new Vector2 (positionOffsetX, positionOffsetY), Quaternion.identity) as GameObject;
 				instance.transform.SetParent (colorHolderInstance.transform);
 				positionOffsetX += 1.5f;

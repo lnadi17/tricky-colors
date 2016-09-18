@@ -1,9 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerMovement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerDie.cs">
     <Files>
-      <File FileName="Assets\Scripts\PlayerMovement.cs" Line="24" Column="3" />
-      <File FileName="Assets\Scripts\SceneManaging.cs" Line="34" Column="16" />
+      <File FileName="Assets\Scripts\ColorScript.cs" Line="5" Column="43" />
+      <File FileName="Assets\Scripts\PlayerMovement.cs" Line="27" Column="23" />
+      <File FileName="Assets\Scripts\PlayerDie.cs" Line="32" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

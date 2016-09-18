@@ -40,7 +40,7 @@ public class PlayerDie : MonoBehaviour {
 	void GameOver(){
 		playerMovement.enabled = false; //Just disable player's controls.
 		circleCollider.enabled = false; //Not to interact with other objects.
-		rb2d.isKinematic = true;
+		rb2d.bodyType = RigidbodyType2D.Static;
 		isOver = true;
 		if (ScoreScript.myScore > PlayerPrefs.GetInt ("BestScore")) {
 			PlayerPrefs.SetInt ("BestScore", ScoreScript.myScore);

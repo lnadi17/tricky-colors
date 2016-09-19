@@ -11,6 +11,7 @@ public class PlayerDie : MonoBehaviour {
 	private CircleCollider2D circleCollider;
 	private SpriteRenderer rdr;
 	private Button btn;
+	private Animator anim;
 
 	//public Color fadedColor; //Changes color when collides with different-colored GameObject.
 	public GameObject canvas;
@@ -20,6 +21,7 @@ public class PlayerDie : MonoBehaviour {
 	void Start () {
 		playerMovement = GetComponent<PlayerMovement> ();
 		circleCollider = GetComponent<CircleCollider2D> ();
+		anim = GetComponent<Animator> ();
 		//rdr = GetComponent<SpriteRenderer> ();
 		cam = CameraScript.cam;
 		rb2d = GetComponent<Rigidbody2D> ();
@@ -41,6 +43,7 @@ public class PlayerDie : MonoBehaviour {
 		playerMovement.enabled = false; //Just disable player's controls.
 		circleCollider.enabled = false; //Not to interact with other objects.
 		rb2d.bodyType = RigidbodyType2D.Static;
+		anim.enabled = false;
 		isOver = true;
 		if (ScoreScript.myScore > PlayerPrefs.GetInt ("BestScore")) {
 			PlayerPrefs.SetInt ("BestScore", ScoreScript.myScore);

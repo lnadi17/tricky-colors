@@ -1,0 +1,25 @@
+{
+    "folders":
+    [
+        {
+            "follow_symlinks": true,
+            "path": ".",
+            "file_exclude_patterns": [
+                "*.meta",
+                "*.csproj",
+                "*.booproj",
+                "*.unityproj",
+                "*.gitattributes",
+                "*.gitignore",
+                "*.apk",
+                "*.sln",
+                "*.userprefs"
+            ],
+            "folder_include_patterns": [
+                "Assets",
+                "Assets/*"
+            ]
+        }
+    ],
+    "solution_file": "./Tricky-Colors.sln"
+}

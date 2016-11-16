@@ -1,0 +1,624 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Game",
+				"GameObject(string name, params Type[] components)\tGameObject(string name, params Type[] components)"
+			],
+			[
+				"Vector3",
+				"Vector3(float x, float y, float z)\tVector3(float x, float y, float z)"
+			],
+			[
+				"Vec",
+				"Vector3\tVector3"
+			],
+			[
+				"Vect",
+				"Vector4()\tVector4()"
+			],
+			[
+				"gameo",
+				"GameObject.SendMessageUpwards(methodName, value, options)"
+			],
+			[
+				"Vecto",
+				"Vector3"
+			],
+			[
+				"u",
+				"SubstanceImporter.SetAnimationUpdateRate(material, animation_update_rate)"
+			],
+			[
+				"game",
+				"GameObject()"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Tricky-Colors.sln",
+			"settings":
+			{
+				"buffer_size": 1003,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Tricky Colors.sln",
+			"settings":
+			{
+				"buffer_size": 1003,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tricky_colors.sublime-project",
+			"settings":
+			{
+				"buffer_size": 578,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "using UnityEngine;\nusing System.Collections;\n\npublic class PlayerMovement : MonoBehaviour {\n\n\tpublic Vector3 endDistance;\n\t[Range(1, 10)]public float transpeed;\n\tpublic AudioClip myAudio;\n\tpublic GameObject particleObj;\n\t//public ParticleSystem pSystem;\n\n\tprivate Rigidbody2D rb2d;\n\tprivate bool started;\n\tprivate CircleCollider2D coll;\n\tprivate Animator anim;\n\n\tvoid Start () {\n\t\trb2d = GetComponent<Rigidbody2D> ();\n\t\tcoll = GetComponent<CircleCollider2D> ();\n\t\tanim = GetComponent<Animator> ();\n\t\ttransform.localScale = new Vector2 (25, 25);\n\t\tcoll.enabled = false;\n\t\tstarted = false;\n\t\tStartCoroutine (Shrink ());\n\t}\n\n\tvoid Update () {\n\t\t//if (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.8f && started){\n\t\tif ((Input.GetKeyDown(KeyCode.Space) && started) || (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.8f && started)){\n\t\t\tif(rb2d.bodyType == RigidbodyType2D.Kinematic){\n\t\t\t\trb2d.bodyType = RigidbodyType2D.Dynamic;\n\t\t\t}\n\t\t\tVector3 end = endDistance + (Vector3)rb2d.position;\n\t\t\tStartCoroutine (SmoothMovement (end));\n\t\t\tAudioSource.PlayClipAtPoint (myAudio, Camera.main.transform.position - new Vector3(0, -3f, 0));\n\t\t\tanim.Play (\"PlayerAnim\", -1, 0f);\n\t\t}\n\t}\n\n\tIEnumerator Shrink(){\n\t\twhile (started == false){\n\t\t\ttransform.localScale = new Vector2 (transform.localScale.x - 0.5f, transform.localScale.y - 0.5f);\n\t\t\tif (transform.localScale.x <= 0.5f) {\n\t\t\t\ttransform.localScale = new Vector2 (0.5f, 0.5f);\n\t\t\t\tcoll.enabled = true;\n\t\t\t\tstarted = true;\n\t\t\t}\n\t\t\tyield return new WaitForSeconds (.025f);\n\t\t}\n\t}\n\n\tIEnumerator SmoothMovement (Vector3 end){\n\t\tfloat sqrRemainingDistance = (transform.position - end).sqrMagnitude;\n\t\twhile(sqrRemainingDistance > 0.1f){\n\t\t\tVector3 nextPosition = Vector3.MoveTowards (rb2d.position, end, transpeed * Time.deltaTime);\n\t\t\ttransform.position = nextPosition;\n\t\t\tsqrRemainingDistance = (transform.position - end).sqrMagnitude;\n\t\t\trb2d.velocity = Vector3.zero;\n\t\t\tyield return null; \n\t\t}\n\t}\n}\n",
+			"file": "Assets/Scripts/PlayerMovement.cs",
+			"file_size": 2060,
+			"file_write_time": 131244841987020416,
+			"settings":
+			{
+				"buffer_size": 2058,
+				"encoding": "UTF-8 with BOM",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 354.0,
+		"last_filter": "omnishar",
+		"selected_items":
+		[
+			[
+				"omnishar",
+				"OmniSharpSublime: Hide Info Panel"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"project",
+				"Project: Refresh Folders"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"list ",
+				"Package Control: List Packages"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: ",
+				"Snippet: GUI.Button(position,content,style)"
+			],
+			[
+				"unity",
+				"Build With: Unity"
+			],
+			[
+				":",
+				"File: Locate"
+			],
+			[
+				"package is",
+				"Package Control: Install Package"
+			],
+			[
+				"browse",
+				"Preferences: Browse Packages"
+			],
+			[
+				"pac",
+				"Package Control: Enable Package"
+			],
+			[
+				"pane",
+				"Layout: Split Current Pane Horizontal"
+			],
+			[
+				"destro",
+				"Layout: Destroy Current Pane"
+			],
+			[
+				"layo",
+				"Layout: Destroy Current Pane"
+			],
+			[
+				"list apcka",
+				"Package Control: List Packages"
+			],
+			[
+				"men",
+				"View: Toggle Menu"
+			],
+			[
+				"packa",
+				"Preferences: Browse Packages"
+			],
+			[
+				"git dif",
+				"Git: Diff All Files"
+			],
+			[
+				"vmen",
+				"View: Toggle Menu"
+			],
+			[
+				"vm",
+				"View: Toggle Minimap"
+			],
+			[
+				"remove ",
+				"Package Control: Remove Package"
+			],
+			[
+				"isntall",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Changelog"
+			],
+			[
+				"push",
+				"Git: Push Tags"
+			],
+			[
+				"git:",
+				"Git: Diff Current File"
+			],
+			[
+				"set syntax: c#",
+				"Set Syntax: C#"
+			],
+			[
+				"git",
+				"Set Syntax: Git Graph"
+			],
+			[
+				"re",
+				"Package Control: Remove Package"
+			],
+			[
+				"list pa",
+				"Package Control: Advanced Install Package"
+			],
+			[
+				"remove pa",
+				"Package Control: Remove Package"
+			],
+			[
+				"remove pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"disab",
+				"Package Control: Disable Package"
+			],
+			[
+				"packane remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"remove packa",
+				"Package Control: Remove Package"
+			],
+			[
+				"package lis",
+				"Package Control: List Packages"
+			],
+			[
+				"snippet unity",
+				"Snippet: UnityEvent.*(call)"
+			],
+			[
+				"package remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"pack",
+				"Package Control: Discover Packages"
+			],
+			[
+				"Package Control: remo",
+				"Package Control: Remove Channel"
+			],
+			[
+				"Package Control: packa",
+				"Package Control: Enable Package"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Disable Package"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 146.0,
+		"history":
+		[
+			"sublime.log_commands(True)",
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/newb/Documents/Tricky-Colors",
+		"/home/newb/Documents/Tricky-Colors/Assets",
+		"/home/newb/Documents/Tricky-Colors/Assets/Scripts"
+	],
+	"file_history":
+	[
+		"/home/newb/Desktop/ქართული/ესე4",
+		"/home/newb/Desktop/ქართული/თემა4",
+		"/home/newb/Desktop/ქართული/ესე3",
+		"/home/newb/Desktop/ქართული/ესე2",
+		"/home/newb/Desktop/ქართული/თემა1",
+		"/home/newb/Desktop/ქართული/თემა3",
+		"/home/newb/Documents/Ghostie/Assets/Scripts/PlayerMovement.cs",
+		"/home/newb/Desktop/ქართული/თემა2",
+		"/home/newb/Desktop/ქართული/კითხვები2",
+		"/home/newb/Desktop/ქართული/georgian.sublime-project",
+		"/home/newb/Desktop/ქართული/კითხვები1",
+		"/home/newb/Desktop/ქართული/კითხვები",
+		"/home/newb/Desktop/ქართული/ესე1",
+		"/home/newb/Documents/Squareball/Assets/Scripts/ProtoScript.cs",
+		"/home/newb/Documents/Squareball/Assets/Scripts/Stats.cs",
+		"/home/newb/Documents/Squareball/Assets/Scripts/PlayerControl.cs",
+		"/home/newb/Documents/Squareball/squareball.sublime-project",
+		"/home/newb/Desktop/projects/squareball.sublime-project",
+		"/home/newb/Documents/Squareball/Assets/Scripts/SceneManagement.cs",
+		"/home/newb/Desktop/features",
+		"/home/newb/Desktop/თემა",
+		"/home/newb/.config/sublime-text-3/Packages/Unity3DReference/Default.sublime-keymap",
+		"/home/newb/.config/sublime-text-3/Packages/Unity3DReference/Default (Linux).sublime-settings",
+		"/home/newb/.config/sublime-text-3/Packages/User/Unity3DReference.sublime-settings",
+		"/home/newb/Documents/Squareball/\"/home/newb/Documents/Squareball/Assets/Scripts/Stats.cs16\"",
+		"/home/newb/Documents/Squareball/Assets/Scripts/Stats.cs15",
+		"/home/newb/Documents/Squareball/15",
+		"/home/newb/Documents/Squareball/home/newb/Documents/Squareball/Assets/Scripts/Stats.cs",
+		"/home/newb/Documents/Squareball/home/newb/Documents/Squareball/Assets/Scripts/Stats.cs16",
+		"/home/newb/Documents/Squareball",
+		"/home/newb/Documents/Squareball:/home/newb/Documents/Squareball/Assets/Scripts/Stats.cs",
+		"/home/newb/Documents/Squareball/\"/home/newb/Documents/Squareball/Assets/Scripts/Stats.cs\":15",
+		"/home/newb/Documents/Squareball/:\"/home/newb/Documents/Squareball/Assets/Scripts/Stats.cs\"",
+		"/home/newb/Documents/Squareball/\"/home/newb/Documents/Squareball/Assets/Scripts/Stats.cs\"",
+		"/home/newb/Documents/Squareball/",
+		"/home/newb/some",
+		"/home/newb/Desktop/projects/ghostie.sublime-project",
+		"/home/newb/.config/sublime-text-3/Packages/Git/Git.sublime-settings",
+		"/home/newb/.config/sublime-text-3/Packages/SublimeLinter/Default (Linux).sublime-keymap",
+		"/home/newb/.config/sublime-text-3/Packages/Emmet/Default (Linux).sublime-keymap",
+		"/home/newb/.config/sublime-text-3/Packages/User/Git.sublime-settings",
+		"/home/newb/.config/sublime-text-3/Packages/Anaconda/README.md",
+		"/home/newb/.config/sublime-text-3/Packages/Package Control/Package Control.sublime-settings",
+		"/home/newb/.config/sublime-text-3/Packages/User/Package Control.sublime-settings"
+	],
+	"find":
+	{
+		"height": 28.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"oplist",
+			"public class SceneManagement{\n\n\tpublic void ReplayScene(){\n\t\t",
+			"\n\t\t"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Tricky-Colors.sln",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1003,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Tricky Colors.sln",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1003,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "tricky_colors.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 578,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								533,
+								533
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Assets/Scripts/PlayerMovement.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2058,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2048,
+								2048
+							]
+						],
+						"settings":
+						{
+							"oops":
+							{
+								"1330,1331": "Comparison with 'false' is redundant"
+							},
+							"syntax": "Packages/Unity3D/UnityC#.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 540.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 44.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 86.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 120.0
+	},
+	"output.variable_get":
+	{
+		"height": 98.0
+	},
+	"pinned_build_system": "",
+	"project": "tricky_colors.sublime-project",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Documents/Ghostie/ghostie.sublime-project"
+			],
+			[
+				"play",
+				"~/Desktop/projects/playground.sublime-project"
+			],
+			[
+				"square",
+				"~/Desktop/projects/squareball.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 242.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -8,15 +7,17 @@ public class SceneManaging: MonoBehaviour {
 	public Text bestext;
 	public GameObject canvasObject;
 	public GameObject player;
-	public Sprite AudioOnSprite;
-	public Sprite AudioOffSprite;
+	public Sprite audioOnSprite;
+	public Sprite audioOffSprite;
 
 	private GameObject pauseObject;
 	private GameObject resumeObject;
 	private GameObject exitObject;
 	private GameObject soundObject;
+	private GameObject isSureObject;
 	private Image currentAudioImage;
 	private PlayerMovement pScript;
+
 
 	private void Start(){
 		if (PlayerPrefs.HasKey ("BestScore")) {
@@ -28,14 +29,16 @@ public class SceneManaging: MonoBehaviour {
 		resumeObject = canvasObject.transform.FindChild ("resumeBtn").gameObject;
 		soundObject = canvasObject.transform.FindChild ("volBtn").gameObject;
 		exitObject = canvasObject.transform.Find ("exitBtn").gameObject;
+		isSureObject = canvasObject.transform.Find("isSure").gameObject;
 		currentAudioImage = soundObject.GetComponent<Image> ();
 		pScript = player.GetComponent<PlayerMovement> ();
 		if (AudioListener.volume == 1) {
-			currentAudioImage.sprite = AudioOnSprite;
+			currentAudioImage.sprite = audioOnSprite;
 		} else {
-			currentAudioImage.sprite = AudioOffSprite;
+			currentAudioImage.sprite = audioOffSprite;
 		}
 	}
+
 
 	private void Update(){
 		//When player presses Android's back button.
@@ -44,28 +47,53 @@ public class SceneManaging: MonoBehaviour {
 		}
 	}
 
+
 	public void TurnAudio(){
 		if (AudioListener.volume == 1) {
-			currentAudioImage.sprite = AudioOffSprite;
+			currentAudioImage.sprite = audioOffSprite;
 			AudioListener.volume = 0;
 		} else {
-			currentAudioImage.sprite = AudioOnSprite;
+			currentAudioImage.sprite = audioOnSprite;
 			AudioListener.volume = 1;
 		}
 	}
+
+
 	public void ReplayGame(){
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 	}
+
+
 	public void StartGame(){
 		SceneManager.LoadScene ("Main");
 	}
-	public void MainMenu(){
+
+
+	public void MainMenuButton(){
+		isSureObject.SetActive(true);
+		resumeObject.SetActive(false);
+		soundObject.SetActive(false);
+		exitObject.SetActive(false);
+	}
+
+
+	public void MainMenuYes(){
 		SceneManager.LoadScene ("Menu");
 		ResumeGame ();
 	}
+
+	public void MainMenuNo(){
+		isSureObject.SetActive(false);
+		resumeObject.SetActive(true);
+		soundObject.SetActive(true);
+		exitObject.SetActive(true);
+	}
+
 	public void LeaveGame(){
 		Application.Quit ();
 	}
+
+
 	public void PauseGame(){
 		pScript.enabled = false;
 		pauseObject.SetActive (false);
@@ -74,6 +102,8 @@ public class SceneManaging: MonoBehaviour {
 		exitObject.SetActive (true);
 		Time.timeScale = 0;
 	}
+
+
 	public void ResumeGame(){
 		pScript.enabled = true;
 		pauseObject.SetActive (true);

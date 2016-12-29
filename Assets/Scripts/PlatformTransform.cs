@@ -10,7 +10,6 @@ public class PlatformTransform : MonoBehaviour {
 	private GameObject tManager;
 	private SpriteRenderer rdr;
 	private float tManagerWidth;
-	//Don't really need this anymore: private float tManagerSafeZone; //Number of tiles left out of sight.
 	private float speed;
 	private float cameraWidth; //Height is twice camera's (orthographic) size, so we only need to declare its width.
 	private bool inRange = false;

@@ -10,10 +10,11 @@
                 "*.booproj",
                 "*.unityproj",
                 "*.gitattributes",
-                "*.gitignore",
+                //"*.gitignore",
                 "*.apk",
                 "*.sln",
-                "*.userprefs"
+                "*.userprefs",
+                "*.sublime-project"
             ],
             "folder_include_patterns": [
                 "Assets",

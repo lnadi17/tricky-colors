@@ -25,8 +25,8 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	void Update () {
-		//if (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.8f && started){
-		if ((Input.GetKeyDown(KeyCode.Space) && started)){ //|| (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.8f && started)){
+		if (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.8f && started){
+		//if ((Input.GetKeyDown(KeyCode.Space) && started)){ //|| (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.8f && started)){
 			if(rb2d.bodyType == RigidbodyType2D.Kinematic){
 				rb2d.bodyType = RigidbodyType2D.Dynamic;
 			}

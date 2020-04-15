@@ -20,12 +20,10 @@ public class PlatformTransform : MonoBehaviour
     private float posX;
 
     void Awake() {
-
         speed = Generator.speed1;
         if (Generator.doFlip) {
             speed *= -1;
         }
-
     }
 
     void Start() {
@@ -64,7 +62,6 @@ public class PlatformTransform : MonoBehaviour
     }
 
     void FixedUpdate() {
-
         // Transform takes too much memory.
         // Uwwwpdate: Optimized.
         if (!dontAsk) {
@@ -74,7 +71,6 @@ public class PlatformTransform : MonoBehaviour
                 inRange = false;
             }
         }
-
 
         if (inRange && rdr.isVisible) {
             futurePosX = posX + 0.1f * speed;
@@ -92,6 +88,5 @@ public class PlatformTransform : MonoBehaviour
             inRange = true;
             dontAsk = true;
         }
-
     }
 }

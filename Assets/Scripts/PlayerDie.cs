@@ -23,7 +23,7 @@ public class PlayerDie : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         circleCollider = GetComponent<CircleCollider2D>();
         anim = GetComponent<Animator>();
-        //rdr = GetComponent<SpriteRenderer> ();
+        // rdr = GetComponent<SpriteRenderer> ();
         cam = CameraScript.cam;
         rb2d = GetComponent<Rigidbody2D>();
         StartCoroutine(IfDead());
@@ -41,8 +41,8 @@ public class PlayerDie : MonoBehaviour
     }
 
     void GameOver() {
-        playerMovement.enabled = false; //Just disable player's controls.
-        circleCollider.enabled = false; //Not to interact with other objects.
+        playerMovement.enabled = false; // Just disable player's controls.
+        circleCollider.enabled = false; // Not to interact with other objects.
         rb2d.bodyType = RigidbodyType2D.Static;
         anim.enabled = false;
         isOver = true;
@@ -54,7 +54,7 @@ public class PlayerDie : MonoBehaviour
 
     void FixedUpdate() {
         if (isOver) {
-            if (transform.localScale.y < 30) { //Scale with the value '30' is big enough to cover all screens.
+            if (transform.localScale.y < 30) { // Scale with the value '30' is big enough to cover all screens.
                 transform.localScale *= 1.05f;
             } else {
                 canvas.SetActive(true);
@@ -65,6 +65,7 @@ public class PlayerDie : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other) {
+        if (!enabled) return;
         if (!other.CompareTag(gameObject.tag) && other.tag != "Untagged") {
             playerMovement.enabled = false;
             tag = "Untagged";

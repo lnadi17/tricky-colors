@@ -24,7 +24,7 @@ public class PlayerDie : MonoBehaviour
         circleCollider = GetComponent<CircleCollider2D>();
         anim = GetComponent<Animator>();
         // rdr = GetComponent<SpriteRenderer> ();
-        cam = CameraScript.cam;
+        cam = Camera.main.gameObject;
         rb2d = GetComponent<Rigidbody2D>();
         StartCoroutine(IfDead());
         btn = canvasObject.transform.Find("pauseBtn").GetComponent<Button>();

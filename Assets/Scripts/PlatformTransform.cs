@@ -28,7 +28,7 @@ public class PlatformTransform : MonoBehaviour
 
     void Start() {
         posX = transform.position.x;
-        cam = CameraScript.cam;
+        cam = Camera.main.gameObject;;
         RetriveCameraSize(); // That is really cool method tho.
         tManager = transform.GetChild(0).gameObject; // Usually transformManager is added last.
         tManagerWidth = tManager.transform.localScale.x;

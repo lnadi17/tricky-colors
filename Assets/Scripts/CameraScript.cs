@@ -3,19 +3,32 @@ using System.Collections;
 
 public class CameraScript : MonoBehaviour
 {
-
-    public static GameObject cam;
+    public static Transform camTransform;
     public GameObject player;
+    [Range (0, 1)]
+    public float speed;
+    [Range (0, 1)]
+    public float downSpeedMultiplier;
 
-    void Awake() { // It's initialized in Awake 'coz otherwise PlayedDie's start funcion is fired first.
-        cam = gameObject; // PlatformTransform refers GameObject component of camera from that.
+    private Vector2 playerOffset;
+    private float lerpFactor;
+    private Vector3 futureCamPos;
+    private float displacement;
+
+    void Awake() {
+        camTransform = Camera.main.transform;
+        playerOffset = player.GetComponent<PlayerMovement>().playerOffset;
     }
 
     void Update() {
-        // Camera moves smoothly.
-        if (cam.transform.position.y - player.transform.position.y < 3) {
-            Vector3 futurePos = player.transform.position + new Vector3(0, 3, -10);
-            cam.transform.position = Vector3.Lerp(cam.transform.position, futurePos, 0.05f);
+        futureCamPos = player.transform.position - (Vector3)playerOffset - Vector3.forward * 10;
+        displacement = futureCamPos.y - camTransform.position.y;
+
+        if (displacement < 0) {
+            lerpFactor = 0.05f * speed * Time.deltaTime * 100 * downSpeedMultiplier;
+        } else {
+            lerpFactor = 0.05f * speed * displacement * Time.deltaTime * 100;
         }
+        camTransform.position = Vector3.Lerp(camTransform.position, futureCamPos, lerpFactor);
     }
 }

@@ -20,7 +20,7 @@ public class ScoreScript : MonoBehaviour
         myScore = 0;
         scoreText = scoreTextGO.GetComponent<TextMesh>();
         scoreText.text = myScore.ToString();
-        distanceBetween = Generator.distanceBetween;
+        distanceBetween = 3;
         player.tag = RandomColor();
     }
 

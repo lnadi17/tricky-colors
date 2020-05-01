@@ -3,13 +3,13 @@ using System.Collections;
 
 public class CameraScript : MonoBehaviour
 {
-    public static Transform camTransform;
     public GameObject player;
     [Range (0, 1)]
     public float speed;
     [Range (0, 1)]
     public float downSpeedMultiplier;
 
+    private Transform camTransform;
     private Vector2 playerOffset;
     private float lerpFactor;
     private Vector3 futureCamPos;

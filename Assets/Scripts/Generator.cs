@@ -45,7 +45,10 @@ public class Generator : MonoBehaviour
         for (int i = 0; i < horizontalCount; i++) {
             Vector2 objectPosition = new Vector2(i * platformWidth, 0);
             GameObject platformClone = Instantiate<GameObject>(platform, objectPosition, Quaternion.identity, lineHolder.transform);
-            platformClone.GetComponent<SpriteRenderer>().color = GetRandomLineColor(i);
+            // Set platform color and tag.
+            int colorIndex = GetRandomLineColorIndex(i);
+            platformClone.GetComponent<SpriteRenderer>().color = colorScript.colorList[colorIndex];
+            platformClone.tag = "Color " + colorIndex.ToString();
         }
         float lineWidth = horizontalCount * platformWidth;
         // Move parent gameobject to passed position + calculated offset.
@@ -135,10 +138,10 @@ public class Generator : MonoBehaviour
         lineColorIndexArray = indexArray;
     }
 
-    Color GetRandomLineColor(int index) {
+    int GetRandomLineColorIndex(int index) {
         if (index == 0) {
             ResetRandomLineColorList();
         }
-        return colorScript.colorList[lineColorIndexArray[index]];
+        return lineColorIndexArray[index];
     }
 }

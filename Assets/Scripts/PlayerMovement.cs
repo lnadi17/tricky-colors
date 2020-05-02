@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
             AudioSource.PlayClipAtPoint(myAudio, Camera.main.transform.position);
             animator.Play("PlayerAnim", -1, 0f);
         } else {
-            // If no input, gravity affects the ball
+            // If no input, gravity affects the ball.
             if (!isGravity) {
                 return;
             }

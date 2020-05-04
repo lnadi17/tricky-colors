@@ -7,6 +7,7 @@ public class ScoreController : MonoBehaviour
 {
     public static int score; // Player score. it's accessible from other places too.
 
+    public ParticleSystem scoreEmitter;
     public GameObject player;
     public GameObject scoreTextObject;
     public AudioClip myAudio;
@@ -50,6 +51,7 @@ public class ScoreController : MonoBehaviour
         // Increase score count and update text.
         score++;
         scoreText.text = score.ToString();
+        scoreEmitter.Emit(7);
         scoreTextObject.transform.Translate(0, distanceBetweenY, 0);
         transform.localPosition += new Vector3(0, distanceBetweenY, 0);
     }

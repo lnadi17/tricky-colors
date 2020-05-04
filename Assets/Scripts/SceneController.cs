@@ -1,20 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
 
 public class SceneController : MonoBehaviour
 {
     public Transform mainSceneCanvas;
+    public GameObject gameOverPanel;
+    public float surePanelFadeInSpeed;
+    public float surePanelFadeOutSpeed;
+    public float gameOverFadeInSpeed;
     public Sprite audioOnSprite;
     public Sprite audioOffSprite;
     public Text bestText;
+    public Animator fadeAnimator;
+    public Image fadeImage;
 
     private GameObject pauseButton;
     private GameObject resumeButton;
     private GameObject volumeButton;
     private GameObject exitButton;
     private GameObject surePanel;
+    private CanvasGroup surePanelGroup;
+    private CanvasGroup gameOverGroup;
     private Image currentAudioImage;
+
+    private AsyncOperation asyncOperation;
 
     private void Start() {
         // Update best score text. 
@@ -30,21 +41,21 @@ public class SceneController : MonoBehaviour
             volumeButton = mainSceneCanvas.Find("VolumeButton").gameObject;
             exitButton = mainSceneCanvas.Find("ExitButton").gameObject;
             surePanel = mainSceneCanvas.Find("SurePanel").gameObject;
-        }
+            surePanelGroup = surePanel.GetComponent<CanvasGroup>();
+            gameOverGroup = gameOverPanel.GetComponent<CanvasGroup>();
+            currentAudioImage = volumeButton.GetComponent<Image>();
 
-        currentAudioImage = volumeButton.GetComponent<Image>();
-
-        // Set audio volume.
-        if (AudioListener.volume == 1) {
-            currentAudioImage.sprite = audioOnSprite;
-        } else {
-            currentAudioImage.sprite = audioOffSprite;
+            // Set audio volume.
+            if (AudioListener.volume == 1) {
+                currentAudioImage.sprite = audioOnSprite;
+            } else {
+                currentAudioImage.sprite = audioOffSprite;
+            }
         }
 
         // If scene is menu, load main scene asyncronously.
-        if (SceneManager.GetActiveScene().name == "Menu") {
-            SceneManager.LoadSceneAsync("Main");
-        }
+        asyncOperation = SceneManager.LoadSceneAsync("Main");
+        asyncOperation.allowSceneActivation = false;
     }
 
     private void Update() {
@@ -64,7 +75,8 @@ public class SceneController : MonoBehaviour
     /// ///////////////////////////////////////////////////// ///
 
     public void StartButtonAction() {
-        SceneManager.LoadScene("Main");
+        fadeAnimator.SetBool("fade", true);
+        StartCoroutine(SceneFadingOut("Main"));
     }
 
     /// ///////////////////////////////////////////////////// ///
@@ -99,26 +111,82 @@ public class SceneController : MonoBehaviour
 
     // Exit button doesn't perform exit, it just opens sure panel.
     public void ExitButtonAction() {
-        surePanel.SetActive(true);
+        FadeIn(surePanelGroup, surePanel, surePanelFadeInSpeed);
+
         resumeButton.SetActive(false);
         volumeButton.SetActive(false);
         exitButton.SetActive(false);
     }
 
-    // Sure panel decides if player stays in the scene or not.
-    public void SurePanelAction(string buttonName) {
-        if (buttonName == "Yes") {
-            SceneManager.LoadScene("Menu");
-            ResumeButtonAction();
-        } else {
-            surePanel.SetActive(false);
-            resumeButton.SetActive(true);
-            volumeButton.SetActive(true);
-            exitButton.SetActive(true);
-        } 
+    // This happens if player decides to stay in the scene.
+    public void ContinuePlayingAction() {
+        FadeOut(surePanelGroup, surePanel, surePanelFadeOutSpeed);
+        resumeButton.SetActive(true);
+        volumeButton.SetActive(true);
+        exitButton.SetActive(true);
     }
 
     public void ReplayButtonAction() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        fadeAnimator.SetBool("fade", true);
+        StartCoroutine(SceneFadingOut("Main"));
+    }
+
+    public void GameOverAction() {
+        pauseButton.SetActive(false);
+        FadeIn(gameOverGroup, gameOverPanel, gameOverFadeInSpeed);
+    }
+
+    public void ExitToMenuAction() {
+        // If game is paused, we need to resume it before switching to the next scene.
+        Time.timeScale = 1;
+
+        fadeAnimator.SetBool("fade", true);
+        StartCoroutine(SceneFadingOut("Menu"));
+    }
+
+    /// ///////////////////////////////////////////   ///
+    /// Below are fade in/out effect implementations. ///
+    /// ///////////////////////////////////////////// ///
+
+    private IEnumerator FadeCanvasGroup(CanvasGroup cg, GameObject obj, float start, float end, float lerpValue = 0.5f) {
+        cg.alpha = start;
+        obj.SetActive(true);
+
+        while (true) {
+            float currentValue = Mathf.Lerp(cg.alpha, end, lerpValue);
+            cg.alpha = currentValue;
+
+            if (Mathf.Abs(cg.alpha - end) < 0.01) {
+                cg.alpha = end;
+                break;
+            }
+            
+            yield return new WaitForEndOfFrame();
+        }
+
+        // If canvas is completely transparent, disable it.
+        if (end == 0) {
+            obj.SetActive(false);
+        }
+    }
+
+    private void FadeIn(CanvasGroup cg, GameObject obj, float lerpValue) {
+        StartCoroutine(FadeCanvasGroup(cg, obj, 0, 1, lerpValue));
+    }
+
+    private void FadeOut(CanvasGroup cg, GameObject obj, float lerpValue) {
+        StartCoroutine(FadeCanvasGroup(cg, obj, 1, 0, lerpValue));
+    }
+
+    // Passed argument is the name of the scene which is going to load next.
+    private IEnumerator SceneFadingOut(string sceneName) {
+        yield return new WaitUntil(() => fadeImage.color.a == 1);
+
+        // Main scene is loaded asynchronously, so it needs another type of call.
+        if (sceneName == "Main") {
+            asyncOperation.allowSceneActivation = true;
+        } else {
+            SceneManager.LoadScene(sceneName);
+        }
     }
 }

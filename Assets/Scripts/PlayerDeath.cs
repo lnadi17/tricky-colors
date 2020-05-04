@@ -6,15 +6,19 @@ public class PlayerDeath : MonoBehaviour
 {
     public ParticleSystem deathEmitter;
     public Gradient deathGradient;
+    public GameObject gameManager;
+    public float gameOverPanelDelay;
 
     private PlayerMovement playerMovement;
     private CircleCollider2D circleCollider;
     private SpriteRenderer spriteRenderer;
+    private SceneController sceneController;
 
     void Start() {
         playerMovement = GetComponent<PlayerMovement>();
         circleCollider = GetComponent<CircleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        sceneController = gameManager.GetComponent<SceneController>();
 
         StartCoroutine(CheckDead());
     }
@@ -45,6 +49,8 @@ public class PlayerDeath : MonoBehaviour
         deathEmitter.Emit(100);
         spriteRenderer.enabled = false;
         Camera.main.GetComponent<CameraScript>().enabled = false;
+        // Wait and then show game over panel.
+        sceneController.Invoke("GameOverAction", gameOverPanelDelay);
     }
 
     void OnTriggerEnter2D(Collider2D other) {

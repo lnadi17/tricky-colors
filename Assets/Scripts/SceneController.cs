@@ -184,10 +184,12 @@ public class SceneController : MonoBehaviour
     }
 
     private void FadeIn(CanvasGroup cg, GameObject obj, float lerpValue) {
+        StopAllCoroutines();
         StartCoroutine(FadeCanvasGroup(cg, obj, 0, 1, lerpValue));
     }
 
     private void FadeOut(CanvasGroup cg, GameObject obj, float lerpValue) {
+        StopAllCoroutines();
         StartCoroutine(FadeCanvasGroup(cg, obj, 1, 0, lerpValue));
     }
 

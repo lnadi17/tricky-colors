@@ -61,7 +61,8 @@ public class SceneController : MonoBehaviour
     private void Update() {
         // When player presses Android's back button.
         if (Input.GetKey(KeyCode.Escape)) {
-            if (SceneManager.GetActiveScene().name == "Main") {
+            // If in main scene, game pauses only if Time.timeScale is 1 and game is not over.
+            if (SceneManager.GetActiveScene().name == "Main" && Time.timeScale == 1 && gameOverPanel.activeSelf != true) {
                 PauseButtonAction();
             }
             if (SceneManager.GetActiveScene().name == "Menu") {
@@ -121,6 +122,8 @@ public class SceneController : MonoBehaviour
     // This happens if player decides to stay in the scene.
     public void ContinuePlayingAction() {
         FadeOut(surePanelGroup, surePanel, surePanelFadeOutSpeed);
+
+        // They shouldn't be activated right away (causes a bug).
         resumeButton.SetActive(true);
         volumeButton.SetActive(true);
         exitButton.SetActive(true);
@@ -144,13 +147,18 @@ public class SceneController : MonoBehaviour
         StartCoroutine(SceneFadingOut("Menu"));
     }
 
-    /// ///////////////////////////////////////////   ///
+    /// ///////////////////////////////////////////// ///
     /// Below are fade in/out effect implementations. ///
     /// ///////////////////////////////////////////// ///
 
     private IEnumerator FadeCanvasGroup(CanvasGroup cg, GameObject obj, float start, float end, float lerpValue = 0.5f) {
         cg.alpha = start;
+        // Ensure that canvas group object is active.
         obj.SetActive(true);
+        // While fading, buttons in this object's childs are not interactable.
+        foreach (Button b in obj.GetComponentsInChildren<Button>()) {
+            b.interactable = false;
+        }
 
         while (true) {
             float currentValue = Mathf.Lerp(cg.alpha, end, lerpValue);
@@ -167,6 +175,11 @@ public class SceneController : MonoBehaviour
         // If canvas is completely transparent, disable it.
         if (end == 0) {
             obj.SetActive(false);
+        }
+
+        // Reenable button interaction.
+        foreach (Button b in obj.GetComponentsInChildren<Button>()) {
+            b.interactable = true;
         }
     }
 

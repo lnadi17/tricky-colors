@@ -27,8 +27,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Update() {
-        // if (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.8f){
+        //if (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.5f) {
+        //if (Input.GetMouseButtonDown(0)) {
         if (Input.GetKeyDown(KeyCode.Space)) {
+        //if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.5f) {
             if (Time.timeScale == 0) {
                 return;
             }
@@ -46,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (!isFalling) {
                 fallTime = 0;
+                return;
             }
             fallTime += Time.deltaTime;
             rigidbody2d.MovePosition(rigidbody2d.position + Vector2.down * gravityScale * fallTime * 0.01f);
@@ -58,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         while (sqrRemainingDistance > 0.1f) {
             rigidbody2d.MovePosition(Vector2.MoveTowards(rigidbody2d.position, end, speed * Time.deltaTime));
             sqrRemainingDistance = (rigidbody2d.position - end).sqrMagnitude;
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
         isFalling = true;   
     }

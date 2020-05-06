@@ -15,54 +15,52 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private float fallTime;
     private bool isFalling;
+    private bool isMovingUp;
+    private bool isMovingDown;
+    private Vector2 endVector;
 
     void Start() {
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        isFalling = false;
+        //isFalling = false;
         fallTime = 0;
-        isGravity = false;
+        //isGravity = false;
+        isMovingUp = false;
+        isMovingDown = false;
 
         rigidbody2d.MovePosition(playerOffset);
     }
 
-    void Update() {
-        //if (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.5f) {
-        //if (Input.GetMouseButtonDown(0)) {
+    void Update() { 
+        // If paused, don't move.
+        if (Time.timeScale == 0) {
+            return;
+        }
+
+        //if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < 0.75f) {
         if (Input.GetKeyDown(KeyCode.Space)) {
-        //if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Camera.main.pixelHeight * 0.5f) {
-            if (Time.timeScale == 0) {
-                return;
-            }
-            if (!isGravity) {
-                isGravity = true;
-            }
-            Vector2 end = jumpDistance + (Vector2)rigidbody2d.position;
-            StartCoroutine(SmoothMovement(end));
             AudioSource.PlayClipAtPoint(myAudio, Camera.main.transform.position);
             animator.Play("PlayerAnim", -1, 0f);
-        } else {
-            // If no input, gravity affects the ball.
-            if (!isGravity) {
-                return;
-            }
-            if (!isFalling) {
-                fallTime = 0;
-                return;
-            }
-            fallTime += Time.deltaTime;
-            rigidbody2d.MovePosition(rigidbody2d.position + Vector2.down * gravityScale * fallTime * 0.01f);
+            endVector = (Vector2)rigidbody2d.position + jumpDistance;
+            isMovingUp = true;
+            isMovingDown = false;
         }
     }
 
-    IEnumerator SmoothMovement(Vector2 end) {
-        isFalling = false;
-        float sqrRemainingDistance = (rigidbody2d.position - end).sqrMagnitude;
-        while (sqrRemainingDistance > 0.1f) {
-            rigidbody2d.MovePosition(Vector2.MoveTowards(rigidbody2d.position, end, speed * Time.deltaTime));
-            sqrRemainingDistance = (rigidbody2d.position - end).sqrMagnitude;
-            yield return new WaitForEndOfFrame();
+    void FixedUpdate() {
+        if (isMovingUp) {
+            float sqrRemainingDistance = (rigidbody2d.position - endVector).sqrMagnitude;
+            rigidbody2d.MovePosition(Vector2.MoveTowards(rigidbody2d.position, endVector, speed * 0.01f));
+            if (sqrRemainingDistance < 0.05f) {
+                isMovingUp = false;
+                isMovingDown = true;
+                fallTime = 0;
+            }
         }
-        isFalling = true;   
+
+        if (isMovingDown) {
+            fallTime += Time.fixedDeltaTime;
+            rigidbody2d.MovePosition(rigidbody2d.position + Vector2.down * fallTime * gravityScale * 0.01f);
+        }
     }
 }

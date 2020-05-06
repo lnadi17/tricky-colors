@@ -8,7 +8,9 @@ public class PlayerDeath : MonoBehaviour
     public Gradient deathGradient;
     public GameObject gameManager;
     public float gameOverPanelDelay;
+    public GameObject finalScoreObject;
 
+    private Text finalScoreText;
     private PlayerMovement playerMovement;
     private CircleCollider2D circleCollider;
     private SpriteRenderer spriteRenderer;
@@ -19,6 +21,7 @@ public class PlayerDeath : MonoBehaviour
         circleCollider = GetComponent<CircleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         sceneController = gameManager.GetComponent<SceneController>();
+        finalScoreText = finalScoreObject.GetComponent<Text>();
 
         StartCoroutine(CheckDead());
     }
@@ -51,11 +54,12 @@ public class PlayerDeath : MonoBehaviour
         Camera.main.GetComponent<CameraScript>().enabled = false;
         // Wait and then show game over panel.
         sceneController.Invoke("GameOverAction", gameOverPanelDelay);
+        // Update final score text.
+        finalScoreText.text = "SCORE: " + ScoreController.score;
     }
 
     void OnTriggerEnter2D(Collider2D other) {
         if (!enabled) return;
-        Debug.Log("Trigger Enter");
         if (!CompareTag(other.tag) && !other.CompareTag("Score")) {
             // In this case player and obstacle colors don't match.
             GameOver();

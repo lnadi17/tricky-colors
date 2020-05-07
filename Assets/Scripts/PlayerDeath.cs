@@ -7,6 +7,7 @@ public class PlayerDeath : MonoBehaviour
     public ParticleSystem deathEmitter;
     public Gradient deathGradient;
     public GameObject gameManager;
+    public Transform gameOverPanel;
     public float gameOverPanelDelay;
     public GameObject finalScoreObject;
 
@@ -16,6 +17,12 @@ public class PlayerDeath : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private SceneController sceneController;
 
+    // These are components of children of gameOverPanel which need their color changed.
+    private Text scoreText;
+    private Text bestText;
+    private Button replayButton;
+    private Button exitButton;
+
     void Start() {
         playerMovement = GetComponent<PlayerMovement>();
         circleCollider = GetComponent<CircleCollider2D>();
@@ -23,13 +30,18 @@ public class PlayerDeath : MonoBehaviour
         sceneController = gameManager.GetComponent<SceneController>();
         finalScoreText = finalScoreObject.GetComponent<Text>();
 
+        scoreText = gameOverPanel.Find("ScoreText").GetComponent<Text>();
+        bestText = gameOverPanel.Find("BestText").GetComponent<Text>();
+        replayButton = gameOverPanel.Find("ReplayButton").GetComponent<Button>();
+        exitButton = gameOverPanel.Find("ExitButton").GetComponent<Button>();
+
         StartCoroutine(CheckDead());
     }
 
     IEnumerator CheckDead() {
         while (true) {
             if (Camera.main.transform.position.y - transform.position.y >= 5) {
-                // Tweak for better particle explosion.
+                // Tweak for better particle explosion. Warning: is dependent on player scale.
                 transform.Translate(0, 1f, 0);
                 transform.localScale = new Vector3(0.2f, 1.7f, 1);
                 // Call GameOver function after that.
@@ -47,9 +59,10 @@ public class PlayerDeath : MonoBehaviour
         if (ScoreController.score > PlayerPrefs.GetInt("BestScore")) {
             PlayerPrefs.SetInt("BestScore", ScoreController.score);
         }
-        // Launch particles, disable sprite renderer and stop camera.
+        // Launch particles, update game over panel colors, disable sprite renderer and stop camera.
         UpdateGradient();
         deathEmitter.Emit(100);
+        UpdateGameOverColors();
         spriteRenderer.enabled = false;
         Camera.main.GetComponent<CameraScript>().enabled = false;
         // Wait and then show game over panel.
@@ -83,5 +96,24 @@ public class PlayerDeath : MonoBehaviour
 
         deathGradient.SetKeys(newGradientColorKeys, deathGradient.alphaKeys);
         col.color = deathGradient;
+    }
+
+    void UpdateGameOverColors() {
+        Color currentPlayerColor = spriteRenderer.color;
+        // Pressed color in this project will always be slight tint to white.
+        Color pressedColor = currentPlayerColor + new Color(0.1f, 0.1f, 0.1f);
+
+        ColorBlock colorBlock = new ColorBlock {
+            normalColor = currentPlayerColor,
+            highlightedColor = currentPlayerColor,
+            pressedColor = pressedColor,
+            selectedColor = currentPlayerColor,
+            disabledColor = currentPlayerColor,
+            colorMultiplier = 1,
+            fadeDuration = 0.1f
+        };
+
+        scoreText.color = bestText.color = currentPlayerColor;
+        replayButton.colors = exitButton.colors = colorBlock;
     }
 }

@@ -15,6 +15,7 @@ public class SceneController : MonoBehaviour
     public Text bestText;
     public Animator fadeAnimator;
     public Image fadeImage;
+    public SpriteRenderer playerSpriteRenderer;
 
     private GameObject pauseButton;
     private GameObject resumeButton;
@@ -24,6 +25,9 @@ public class SceneController : MonoBehaviour
     private CanvasGroup surePanelGroup;
     private CanvasGroup gameOverGroup;
     private Image currentAudioImage;
+    private Text sureText;
+    private Button yesButton;
+    private Button noButton;
 
     private AsyncOperation asyncOperation;
 
@@ -41,6 +45,9 @@ public class SceneController : MonoBehaviour
             volumeButton = mainSceneCanvas.Find("VolumeButton").gameObject;
             exitButton = mainSceneCanvas.Find("ExitButton").gameObject;
             surePanel = mainSceneCanvas.Find("SurePanel").gameObject;
+            sureText = surePanel.transform.Find("SureText").GetComponent<Text>();
+            yesButton = surePanel.transform.Find("YesButton").GetComponent<Button>();
+            noButton = surePanel.transform.Find("NoButton").GetComponent<Button>();
             surePanelGroup = surePanel.GetComponent<CanvasGroup>();
             gameOverGroup = gameOverPanel.GetComponent<CanvasGroup>();
             currentAudioImage = volumeButton.GetComponent<Image>();
@@ -90,6 +97,7 @@ public class SceneController : MonoBehaviour
         resumeButton.SetActive(true);
         volumeButton.SetActive(true);
         exitButton.SetActive(true);
+        UpdateSurePanelColors();
     }
 
     public void ResumeButtonAction() {
@@ -168,8 +176,9 @@ public class SceneController : MonoBehaviour
                 cg.alpha = end;
                 break;
             }
-            
-            yield return new WaitForEndOfFrame();
+
+            // Speed of fading is dependent on this value too.
+            yield return new WaitForSecondsRealtime(0.025f);
         }
 
         // If canvas is completely transparent, disable it.
@@ -203,5 +212,24 @@ public class SceneController : MonoBehaviour
         } else {
             SceneManager.LoadScene(sceneName);
         }
+    }
+
+    void UpdateSurePanelColors() {
+        Color currentPlayerColor = playerSpriteRenderer.color;
+        // Pressed color in this project will always be slight tint to white.
+        Color pressedColor = currentPlayerColor + new Color(0.1f, 0.1f, 0.1f);
+
+        ColorBlock colorBlock = new ColorBlock {
+            normalColor = currentPlayerColor,
+            highlightedColor = currentPlayerColor,
+            pressedColor = pressedColor,
+            selectedColor = currentPlayerColor,
+            disabledColor = currentPlayerColor,
+            colorMultiplier = 1,
+            fadeDuration = 0.1f
+        };
+
+        sureText.color = currentPlayerColor;
+        yesButton.colors = noButton.colors = colorBlock;
     }
 }

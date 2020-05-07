@@ -9,6 +9,7 @@ public class Generator : MonoBehaviour
     public float distanceBetweenY = 3f;
     public float speed = 1f;
     public int horizontalCount = 10;
+    public float transformWaitTime = 0.5f;
     [Space]
     public bool generateLinesOnly = true;
     public bool swapPlatformDirections = true;
@@ -57,7 +58,7 @@ public class Generator : MonoBehaviour
         } else {
             lineHolder.transform.position = position + new Vector2(-screenWidth * 0.5f, 0);
         }
-        // Set lineHolder fieds.
+        // Set lineHolder fields.
         LineTransform lineTransform = lineHolder.AddComponent<LineTransform>();
         lineTransform.distanceBetweenY = distanceBetweenY;
         lineTransform.horizontalCount = horizontalCount;
@@ -68,6 +69,7 @@ public class Generator : MonoBehaviour
         lineTransform.screenHeight = screenHeight;
         lineTransform.platformWidth = platformWidth;
         lineTransform.playerTransform = playerTransform;
+        lineTransform.transformWaitTime = transformWaitTime;
     }
 
     void GenerateLines() {

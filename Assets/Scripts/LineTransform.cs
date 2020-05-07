@@ -22,6 +22,8 @@ public class LineTransform : MonoBehaviour
     public float platformWidth;
     [HideInInspector]
     public Transform playerTransform;
+    [HideInInspector]
+    public float transformWaitTime;
 
     private Transform[] childTransforms;
 
@@ -51,7 +53,7 @@ public class LineTransform : MonoBehaviour
             if (transform.position.y < playerTransform.position.y - 1 - screenHeight * 0.5f) {
                 transform.Translate(new Vector2(0, distanceBetweenY * verticalCount));
             }
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(5f);
         }
     }
 
@@ -89,7 +91,7 @@ public class LineTransform : MonoBehaviour
             }
 
             // Warning: wait shouldn't be so long that it can't keep up with the line's movement speed.
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(transformWaitTime);
         }
     }
 }

@@ -31,6 +31,7 @@ public class ScoreController : MonoBehaviour
         int colorIndex = GetRandomColorIndex();
         player.tag = GetColorTag(colorIndex);
         playerSpriteRenderer.color = colorScript.colorList[colorIndex];
+        scoreText.color = playerSpriteRenderer.color;
     }
 
     string GetColorTag(int index) {
@@ -51,6 +52,7 @@ public class ScoreController : MonoBehaviour
         // Increase score count and update text.
         score++;
         scoreText.text = score.ToString();
+        scoreText.color = playerSpriteRenderer.color;
         scoreEmitter.Emit(7);
         scoreTextObject.transform.Translate(0, distanceBetweenY, 0);
         transform.localPosition += new Vector3(0, distanceBetweenY, 0);

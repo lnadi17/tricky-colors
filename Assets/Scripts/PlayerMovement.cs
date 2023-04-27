@@ -37,8 +37,11 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        //if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < 0.75f) {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).position.y < Screen.height * 0.75f) {
+#elif UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Space)) {
+#endif
             AudioSource.PlayClipAtPoint(myAudio, Camera.main.transform.position);
             animator.Play("PlayerAnim", -1, 0f);
             endVector = (Vector2)rigidbody2d.position + jumpDistance;
